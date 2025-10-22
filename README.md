@@ -101,7 +101,9 @@ allure generate allure_results -o allure_report --clean
 .
 ├─ pages/
 │  ├─ base_page.py
-│  └─ forecast_page.py
+│  ├─ home_page.py
+│  ├─ hamburger_menu_page.py
+│  └─ forecast_9day_page.py
 ├─ tests/
 │  ├─ mobile/
 │  │  ├─ conftest.py
@@ -116,16 +118,8 @@ allure generate allure_results -o allure_report --clean
 │  ├─ allure_helpers.py
 │  └─ date_utils.py
 ├─ config/
-│  ├─ common.env
 │  ├─ ui.env
 │  └─ api.env
 ├─ conftest.py
 └─ README.md
 ```
-
----
-
-## 5) Next Steps
-- Add iOS support (XCUITest).
-- Introduce `jsonschema` for stricter schema validation.
-- Add CI (GitHub Actions) to publish Allure artifacts.
