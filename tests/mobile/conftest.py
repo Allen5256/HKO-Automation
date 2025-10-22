@@ -3,6 +3,7 @@ import os
 import pytest
 from appium import webdriver
 from appium.options.android.uiautomator2.base import UiAutomator2Options
+from pages import init_pages
 
 def _env(name, default=None):
     v = os.getenv(name, default)
@@ -47,3 +48,18 @@ def driver(appium_server_url, android_env):
         drv.quit()
     except Exception:
         pass
+
+@pytest.fixture(scope="function")
+def home_page(driver):
+    init_pages(driver)
+    return driver.home_page
+
+@pytest.fixture(scope="function")
+def hamburger_menu_page(driver):
+    init_pages(driver)
+    return driver.hamburger_menu_page
+
+@pytest.fixture(scope="function")
+def forecast_9day_page(driver):
+    init_pages(driver)
+    return driver.forecast_9day_page

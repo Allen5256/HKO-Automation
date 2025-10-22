@@ -1,35 +1,37 @@
-from __future__ import annotations
+# pages/base_page.py
+import time
 from selenium.webdriver.support.ui import WebDriverWait
-from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException, ElementClickInterceptedException
-
-DEFAULT_TIMEOUT = 20
 
 class BasePage:
-    """Base page-object with common methods for all screens."""
-    def __init__(self, driver):
+    def __init__(self, driver, timeout=15):
         self.driver = driver
-        self.wait = WebDriverWait(self.driver, DEFAULT_TIMEOUT)
+        self.timeout = timeout
 
+    def wait_visible(self, locator, timeout=None):
+        t = timeout or self.timeout
+        return WebDriverWait(self.driver, t).until(EC.visibility_of_element_located(locator))
 
-    def wait_for_element(self, locator, condition=EC.presence_of_element_located):
-        return self.wait.until(condition(locator))
+    def wait_clickable(self, locator, timeout=None):
+        t = timeout or self.timeout
+        return WebDriverWait(self.driver, t).until(EC.element_to_be_clickable(locator))
 
-    def tap(self, locator):
-        el = None
+    def tap(self, locator, timeout=None):
+        el = self.wait_clickable(locator, timeout=timeout)
+        el.click()
+        return el
+
+    def exists(self, locator, timeout=2):
+        end = time.time() + timeout
+        while time.time() < end:
+            els = self.driver.find_elements(*locator)
+            if els:
+                return True
+            time.sleep(0.2)
+        return False
+
+    def current_activity(self):
         try:
-            el = self.wait_for_element(locator, condition=EC.element_to_be_clickable)
-            el.click()
-        except (TimeoutException, ElementClickInterceptedException):
-             raise AssertionError(f"Element {locator} not clickable")
-
-    def get_text(self, locator):
-        el = self.wait_for_element(locator, condition=EC.presence_of_element_located)
-        return el.text
-
-    def find(self, locator):
-        return self.driver.find_element(*locator)
-
-    def finds(self, locator):
-        return self.driver.find_elements(*locator)
+            return self.driver.current_activity or ""
+        except Exception:
+            return ""

@@ -1,0 +1,41 @@
+# pages/hamburger_menu_page.py
+from appium.webdriver.common.appiumby import AppiumBy
+from .base_page import BasePage
+
+class HamburgerMenuPage(BasePage):
+    # Drawer root marker (common container id/name). Adjust if real id is known.
+    DRAWER_MARKER_ID = (AppiumBy.ID, "hko.MyObservatory_v1_0:id/design_navigation_view")
+
+    # Menu entries — provide multilingual text fallbacks; prefer id if available.
+    MENU_9DAY_ID  = (AppiumBy.ID, "hko.MyObservatory_v1_0:id/menu_9day")  # replace if you find real id
+    MENU_9DAY_EN  = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("9-day")')
+    MENU_9DAY_ZH1 = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("9日")')
+    MENU_9DAY_ZH2 = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("九日")')
+
+    def is_open(self):
+        # Either drawer container exists or content description indicates open
+        return self.exists(self.DRAWER_MARKER_ID)
+
+    def go_to_9day_forecast(self):
+        # Ensure drawer is open before tapping
+        if not self.is_open():
+            # If not open, swipe from left edge as a last resort
+            size = self.driver.get_window_size()
+            start_x = int(size["width"] * 0.05)
+            end_x   = int(size["width"] * 0.8)
+            y       = int(size["height"] * 0.2)
+            self.driver.swipe(start_x, y, end_x, y, 300)
+
+        for loc in (self.MENU_9DAY_ID, self.MENU_9DAY_EN, self.MENU_9DAY_ZH1, self.MENU_9DAY_ZH2):
+            if self.exists(loc):
+                self.tap(loc, 8)
+                return True
+        # If menu item is off-screen, scroll the drawer and retry once
+        self.driver.find_element(
+            AppiumBy.ANDROID_UIAUTOMATOR,
+            'new UiScrollable(new UiSelector().scrollable(true)).scrollTextIntoView("9-day")'
+        )
+        if self.exists(self.MENU_9DAY_EN) or self.exists(self.MENU_9DAY_ZH1) or self.exists(self.MENU_9DAY_ZH2):
+            self.tap(self.MENU_9DAY_EN if self.exists(self.MENU_9DAY_EN) else self.MENU_9DAY_ZH1, 8)
+            return True
+        raise AssertionError("9-day Forecast menu item not found in hamburger drawer")

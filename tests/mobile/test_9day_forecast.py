@@ -1,13 +1,19 @@
+# tests/mobile/test_9day_forecast.py
 import allure
-from pages.forecast_page import ForecastPage
 
 @allure.feature("App UI")
-@allure.story("9-day Forecast")
-def test_check_9th_day_forecast(driver):
-    page = ForecastPage(driver)
-    with allure.step("Open 9-day Forecast screen"):
-        page.open_9day_screen()
-    with allure.step("Read the 9th day's card"):
-        summary = page.get_ninth_day_summary()
-    allure.attach(summary or "(empty)", name="9th_day_summary", attachment_type=allure.attachment_type.TEXT)
-    assert summary and len(summary) > 0, "Expected non-empty summary text for the 9th day"
+@allure.story("9-day Forecast via Hamburger")
+def test_check_9th_day_forecast(driver, home_page, hamburger_menu_page, forecast_9day_page):
+    assert home_page.is_loaded(), "Home page did not load"
+
+    with allure.step("Open hamburger menu"):
+        home_page.open_hamburger()
+        assert hamburger_menu_page.is_open(), "Hamburger drawer did not open"
+
+    with allure.step("Navigate to 9-day Forecast"):
+        hamburger_menu_page.go_to_9day_forecast()
+        assert forecast_9day_page.is_loaded(), "9-day Forecast page did not load"
+        assert forecast_9day_page.has_n_days(9), "Expected at least 9 days in the forecast list"
+
+    with allure.step("Open the 9th day card"):
+        forecast_9day_page.open_nth_day(9)
