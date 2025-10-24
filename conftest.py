@@ -1,19 +1,14 @@
 import os
-import json
-import pytest
-import allure
-from appium import webdriver
-from datetime import datetime
-from utils.allure_helpers import attach_kv, attach_json, attach_text, attach_screenshot
-from dotenv import load_dotenv
 from pathlib import Path
 
+import pytest
+from dotenv import load_dotenv
 
+from utils.allure_helpers import attach_screenshot, attach_text
 
 # Attempt to load env from config files if present (optional when not using run_test.ps1)
 _CFG = Path(__file__).parent / "config"
-for p in [Path.cwd() / "config" / "common.env",
-          Path.cwd() / "config" / "ui.env",
+for p in [Path.cwd() / "config" / "ui.env",
           Path.cwd() / "config" / "api.env"]:
     if p.exists():
         load_dotenv(p, override=False)

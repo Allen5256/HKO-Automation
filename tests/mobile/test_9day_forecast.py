@@ -1,9 +1,10 @@
 # tests/mobile/test_9day_forecast.py
 import allure
 
+
 @allure.feature("App UI")
 @allure.story("9-day Forecast via Hamburger")
-def test_check_9th_day_forecast(driver, home_page, hamburger_menu_page, forecast_9day_page):
+def test_check_9th_day_forecast(home_page, hamburger_menu_page, forecast_9day_page):
     assert home_page.is_loaded(), "Home page did not load"
 
     with allure.step("Open hamburger menu"):

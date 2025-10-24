@@ -77,6 +77,7 @@ if ($shouldGenerate) {
         Write-Warning "Allure generation failed. Ensure Allure CLI is installed and on PATH."
     } else {
         Write-Host "Allure report generated at .\allure_report"
+        allure serve $allureDir
     }
 } else {
     Write-Host "All tests passed and -OnlyOnFail is set. Skipping Allure report generation."

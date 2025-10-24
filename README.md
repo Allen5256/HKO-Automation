@@ -1,7 +1,7 @@
 # QA Automation Challenge – MyObservatory (App UI + API)
 
-> **Scope**: Task 1 – App UI automation with Appium + POM; Task 2 – API tests with an API client; unified reporting via Allure.  
-> **Language**: Python + Pytest.  
+> **Scope**: Task 1 – App UI automation with Appium + POM; Task 2 – API tests with an API client; unified reporting via Allure.
+> **Language**: Python + Pytest.
 > **Style**: Clean, extensible, consistent with my public repos’ patterns.
 
 ---
@@ -32,10 +32,9 @@
 - (Optional) Allure CLI to open HTML reports
 
 ### 2.2 Quick Setup
-- **Windows (PowerShell)**: `./setup_env.ps1`  
-- **macOS / Linux (bash)**: `bash setup_env.sh`
+- **Windows (PowerShell)**: `./setup_env.ps1`
 
-This will create a virtualenv and install project dependencies.
+This will create a virtual environment and install project dependencies.
 
 ### 2.3 Appium Server (Project-local)
 ```bash
@@ -50,7 +49,7 @@ Edit env files instead of exporting variables in your shell:
 - `config/ui.env` — UI/Appium capabilities (`PLATFORM_NAME`, `DEVICE_NAME`, `APP_PACKAGE`, `APP_ACTIVITY`, etc)
 - `config/api.env` — API base URL (`API_BASE_URL`)
 
-The runner (`run_test.ps1`) will auto-load relevant files based on scope (UI/API).  
+The runner (`run_test.ps1`) will auto-load relevant files based on scope (UI/API).
 Direct `pytest` runs will also auto-load via `python-dotenv`.
 
 > Tip: Discover `appActivity` with `adb shell dumpsys window | grep -i mCurrentFocus` after launching the app.
@@ -74,8 +73,9 @@ pytest tests/api -n auto --alluredir=allure_results
 ```
 
 ### 2.6 Open Allure Report
-If you use `run_test.ps1`, the report is generated automatically (unless you set `-OnlyOnFail` and tests passed).  
-Manual operations:
+If you use `run_test.ps1`, the report is generated automatically (unless you set `-OnlyOnFail` and tests passed).
+
+#### - Manual operations:
 
 ```bash
 allure serve allure_results
