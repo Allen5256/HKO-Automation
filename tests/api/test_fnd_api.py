@@ -22,7 +22,6 @@ def test_extract_day_after_tomorrow_humidity(api_client):
     humidity = extract_day_after_tomorrow_humidity(resp.json(), target_date)
     allure.attach(humidity, name="humidity(day+2)")
     assert humidity and "-" in humidity and humidity.endswith("%"), "Expected range like '60-85%'"
-    assert humidity and "-" in humidity and humidity.endswith("%"), "Expected range like '60-85%'"
 
 def test_minimum_contract(api_client):
     resp = api_client.get_fnd()

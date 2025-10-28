@@ -6,7 +6,7 @@
 
 ---
 
-## 1) Test Case List (preview-friendly table)
+## 1) Test Case List
 
 ### Task 1 – App UI (Android, MyObservatory)
 | ID | Title | Precondition | Steps | Expected Results | Notes |
